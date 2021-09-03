@@ -1,6 +1,9 @@
 import Head from 'next/head'
+import Link from 'next/link'
 
-export default function Home() {
+// 测试getStaticProps在每次请求都执行
+// let count=0
+export default function Home(props) {
   return (
     <div className="container">
       <Head>
@@ -9,13 +12,22 @@ export default function Home() {
       </Head>
 
       <main>
+        {/* <h1 className="title">
+          Hello, <a href="https://nextjs.org">Next.js!</a>
+        </h1> */}
         <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Read{' '}
+          <Link href="/posts/first-post">
+            <a>this page!</a>
+          </Link>
         </h1>
 
         <p className="description">
           Get started by editing <code>pages/index.js</code>
         </p>
+
+        <p>{props.data}</p>
+        <p>{props.count}</p>
 
         <div className="grid">
           <a href="https://nextjs.org/docs" className="card">
@@ -45,6 +57,30 @@ export default function Home() {
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </a>
+
+          {/* introduction */}
+          <Link href={'/introduction'}>
+            <a
+              className="card"
+            >
+              <h3>Introduction &rarr;</h3>
+              <p>
+                Nice to meet you.
+              </p>
+            </a>
+          </Link>
+
+          {/* 测试scss */}
+          <Link href={'/posts/second-post'}>
+            <a
+              className="card"
+            >
+              <h3>Scss &rarr;</h3>
+              <p>
+                Test Scss.
+              </p>
+            </a>
+          </Link>
         </div>
       </main>
 
@@ -206,4 +242,16 @@ export default function Home() {
       `}</style>
     </div>
   )
+}
+
+export async function getStaticProps() {
+  // Get external data from the file system, API, DB, etc.
+  const data = 'This is data.'
+  // let count = 0
+
+  // The value of the `props` key will be
+  //  passed to the `Home` component
+  return {
+    props: { data }
+  }
 }
